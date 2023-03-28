@@ -1,7 +1,10 @@
 {
   "name": "skinsmoney/skinsmoney",
   "description": "description",
+  "type": "library",
+  "version": "2.1.0",
   "license": "MIT",
+  "minimum-stability": "stable",
   "authors": [
     {
       "name": "Patryk Vizauer",
