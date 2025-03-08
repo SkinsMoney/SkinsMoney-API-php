@@ -5,9 +5,9 @@ require __DIR__ . '/../vendor/autoload.php';
 $skinsMoney = new \SkinsMoney\SkinsMoney('bearerToken');
 
 try {
-    $deposit = $skinsMoney->service('serviceId');
-    $createDeposit = $deposit->getDepositInfo('depositId');
-    print_r($createDeposit);
+    $service = $skinsMoney->service('serviceId');
+    $items = $service->getItemsForSale();
+    print_r($items);
 } catch (\SkinsMoney\Exceptions\ValidationException $exception) {
     print_r($exception->getErrors());
 }

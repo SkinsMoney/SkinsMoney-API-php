@@ -21,7 +21,7 @@ class CreateDeposit extends Action
     private string $tradeUrl;
     private string $steamId;
 
-    public function __construct(Guzzle $guzzle, private string $serviceId, private string $hash)
+    public function __construct(Guzzle $guzzle, private string $serviceId)
     {
         parent::__construct($guzzle);
     }
@@ -65,7 +65,6 @@ class CreateDeposit extends Action
     public function make()
     {
         $payload = [
-            'serviceId' => $this->serviceId,
             'minValue' => sprintf('%.2f', $this->minValue),
         ];
 
@@ -89,9 +88,7 @@ class CreateDeposit extends Action
             $payload['steamId'] = $this->steamId;
         }
 
-        $payload['signature'] = $this->getSignature($payload);
-
-        if (!$request = $this->guzzle->request('deposits', [
+        if (!$request = $this->guzzle->request('services/' . $this->serviceId . '/deposits', [
             'json' => $payload,
         ], 'POST')) {
             return false;
@@ -103,11 +100,5 @@ class CreateDeposit extends Action
         }
 
         return new DepositCreatedResponse($json);
-    }
-
-    private function getSignature(array $payload): string
-    {
-        $payload['hash'] = $this->hash;
-        return hash('sha256', implode('|', $payload));
     }
 }

@@ -19,7 +19,7 @@ class Guzzle
     private int $errorCode;
     private string $error;
 
-    public function __construct(?string $baseUrl = null)
+    public function __construct(string $bearerToken, ?string $baseUrl = null)
     {
         if (!$baseUrl) {
             $baseUrl = 'https://api.skinsmoney.gg/v1/';
@@ -28,6 +28,11 @@ class Guzzle
         $this->client = new Client([
             'http_errors' => false,
             'base_uri' => $baseUrl,
+            'headers' => [
+                'Authorization' => 'Bearer ' . $bearerToken,
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
         ]);
     }
 
